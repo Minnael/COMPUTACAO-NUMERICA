@@ -22,7 +22,7 @@ def metodoJacobi(A, b, p, x0, nMax):
 	it = 0
 	er = 1
 	
-	while (er >= 10**(-p) and it <= nMax):
+	while (er >= 10**(-p) and it < nMax):
 		x = B@x0ld + d
 		er = (np.max(np.abs(x - x0ld)))/np.max(np.abs(x))
 		x0ld = np.copy(x)
