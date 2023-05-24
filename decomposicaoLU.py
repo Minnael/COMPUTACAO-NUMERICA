@@ -14,21 +14,6 @@ b = np.array([
 	[-160]
 ])
 
-def triangularSuperior(u, y):
-	n = len(u)
-	x = np.zeros((n,1))
-	for i in range(n-1, -1, -1):
-		x[i, 0] = (y[i,0] - u[i, i:n]@x[i:n,0])/u[i,i]
-	return x
-
-def triangularInferior(l, b):
-    n = len(l)
-    x = np.zeros((n,1))
-    x[0, 0] = b[0, 0]/l[0, 0]
-    for i in range(1, n):
-        x[i, 0] = (b[i,0] - l[i, 0:i]@x[0:i, 0])/l[i,i]
-    return x
-
 def decomposicaoLU(A, b):
 	n = len(A)
 	L = np.eye(n)
@@ -40,14 +25,16 @@ def decomposicaoLU(A, b):
 			L[i, j] = fator
 			A[i, 0:] = A[i, 0:] - fator * A[j, 0:]
 	U = A
-	y = triangularInferior(L, b)
-	x = triangularSuperior(U, y)
-	for i in range(n):
-		soma = soma + sum(U[i]) + sum(L[i])
-	soma = soma + sum(x)
-	return soma
+	y = np.linalg.solve(L, b)
+	x = np.linalg.solve(U, y)
 	
-print(decomposicaoLU(A, b))
+	return (L, U, x, y)
+	
+(L, U, x, y) = decomposicaoLU(A, b)
+print(L)
+print(U)
+print(x)
+print(y)
 	
 
 			

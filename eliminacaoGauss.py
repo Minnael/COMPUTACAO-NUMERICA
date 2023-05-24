@@ -1,12 +1,5 @@
 import numpy as np
 
-def triangularSuperior(u, y):
-	n = len(u)
-	x = np.zeros((n, 1))
-	for i in range(n-1, -1, -1):
-		x[i, 0] = (y[i, 0] - u[i, i:n]@x[i:n, 0])/u[i, i]
-	return x
-
 def eliminacaoGauss(A, b):
 	matrizA = np.concatenate((A, b),1)
 	n = len(matrizA)
@@ -18,7 +11,7 @@ def eliminacaoGauss(A, b):
 			matrizA[i, 0:] = matrizA[i, 0:] - fator*matrizA[j, 0:]
 	u = matrizA[0:, 0:n]
 	y = matrizA[0:, n:n+1]
-	print(triangularSuperior(u, y))
+	return np.linalg.solve(u, y)
 	
 A = np.array([
 	[5, 4, 6, -3],
@@ -34,5 +27,5 @@ b = np.array([
 	[-127]
 ])
 
-eliminacaoGauss(A, b)
+print(eliminacaoGauss(A, b))
 
